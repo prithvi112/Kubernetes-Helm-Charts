@@ -19,7 +19,7 @@ spec:
         - name: logstash
           image: docker.elastic.co/logstash/logstash:8.0.0
           ports:
-            - containerPort: 5044 # Listen for filebeat input
+            - containerPort: 5044
           env:
           - name: SEARCH_URL
             value: {{ .Values.search.url }}
@@ -33,10 +33,11 @@ spec:
               secretKeyRef:
                 name: secret-es-credentials
                 key: logstash-es-password
+          - name: LOGSTASH_ENVIRONMENT
+            value: "true"
           volumeMounts:
             - name: config-logstash
-              mountPath: /usr/share/logstash/pipeline/logstash.conf
-              subPath: logstash.conf
+              mountPath: /usr/share/logstash/pipeline
       volumes:
         - name: config-logstash
           configMap:

@@ -60,6 +60,7 @@ data:
 
 
     output {
+      stdout { codec => rubydebug }
       elasticsearch {
         hosts => ["${SEARCH_URL}"]
         user => "${SEARCH_USERNAME}"
