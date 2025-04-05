@@ -11,7 +11,9 @@ Repository for all my helm charts
 ## Useful Commands
 - Add repository to Helm - ```helm repo add < any-repository-name > https://prithvi112.github.io/Kubernetes-Helm-Charts```
 - Verify all updated chart are present - ```helm search repo < above-repository-name >```
-- Install any specific chart - ``` helm install < any-suitable-name > < repository-name >/< chart-name > -f < values yaml file >``` (The values yaml file will be required for some charts mentioned in table below)
+- Install any specific chart - ``` helm install < any-suitable-name > < repository-name >/< chart-name > -f < values yaml file >```  
+(The values yaml file will be required for some charts mentioned in table below)
+- Update local repository - ```helm repo update < repository-name >```
 
 ## Helm Charts
 | Type | Chart Name | Purpose | Directory | Values File Required |
