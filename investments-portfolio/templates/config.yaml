@@ -1,0 +1,61 @@
+---
+### Namespace for the application ###
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.kube.namespace }}
+---
+
+### Configmap for API variables ###
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-api
+  namespace: {{ .Values.kube.namespace }}
+data:
+  WORK_ENVIRONMENT: {{ .Values.application.environment }}
+  SQL_HOSTNAME: {{ .Values.mysql.hostname }}
+  SQL_USERNAME: {{ .Values.mysql.username }}
+  SQL_PORT: "{{ .Values.mysql.port }}"
+  SQL_DATABASE: {{ .Values.mysql.database }}
+  SSH_HOSTNAME: {{ .Values.sshTunnel.hostname }}
+  SSH_USERNAME: {{ .Values.sshTunnel.username }}
+  SSH_PORT: "{{ .Values.sshTunnel.port }}"
+  SSH_PEM_FILEPATH: {{ .Values.sshTunnel.containerPemfile }}
+---
+
+### Configmap for Web/Grafana variables ###
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-app
+  namespace: {{ .Values.kube.namespace }}
+data:
+  GRAFANA_URL: {{ .Values.application.grafana.url }}
+  API_URL: {{ .Values.application.api.url }}
+  APP_USERNAME: {{ .Values.application.username }}
+---
+
+### Secrets for API variables ###
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret-api
+  namespace: {{ .Values.kube.namespace }}
+type: Opaque
+data:
+  api-key: {{ .Values.application.api.key | b64enc | quote }}
+  sql-password: {{ .Values.mysql.password | b64enc | quote }}
+---
+
+### Secrets for Web/Grafana variables ###
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret-app
+  namespace: {{ .Values.kube.namespace }}
+type: Opaque
+data:
+  api-key: {{ .Values.application.api.key | b64enc | quote }}
+  app-password: {{ .Values.application.password | b64enc | quote }}
+---

@@ -1,0 +1,37 @@
+### Values for configuring kubernetes cluster ###
+kube:
+  namespace: investments
+  replicaCount1: 1
+  replicaCount2: 2
+
+### Values for fetching docker images ###
+docker:
+  namespace: prithvi163
+  repository: investment-portfolio
+
+### Values for application configuration ###
+application:
+  environment: "${WORK_ENVIRONMENT}"
+  api:
+    url: http://investment-api-service-internal:8081
+    key: ${API_KEY}
+  grafana:
+    url: ${GRAFANA_URL}
+  username: ${APP_USERNAME}
+  password: ${APP_PASSWORD}
+
+### Values for SSH Tunneling setup ###
+sshTunnel:
+  hostname: ${SSH_HOSTNAME}
+  port: 22
+  username: ${SSH_USERNAME}
+  containerPemfile: ${SSH_PEM_DOCKER}
+  localPemfile: ${SSH_PEM_LOCAL}
+
+### Values for integrating MySQL database ###
+mysql:
+  hostname: ${SQL_HOSTNAME}
+  port: 3306
+  username: ${SQL_USERNAME}
+  password: ${SQL_PASSWORD}
+  database: investments_portfolio

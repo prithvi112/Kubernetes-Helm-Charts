@@ -1,0 +1,81 @@
+---
+### Deployment for Investment API cluster pod
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: investment-api
+  namespace: {{ .Values.kube.namespace }}
+spec:
+  replicas: {{ .Values.kube.replicaCount2 }}
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: container-investment-api
+          image: "{{ .Values.docker.namespace }}/{{ .Values.docker.repository }}:api"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8081
+          envFrom:
+          - configMapRef:
+              name: config-api
+          env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: secret-api
+                  key: api-key
+            - name: SQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret-api
+                  key: sql-password
+      {{- if eq .Values.application.environment "onpremise" }}
+          volumeMounts:
+          - name: key-mount
+            mountPath: {{ .Values.sshTunnel.containerPemfile }}
+
+      volumes:
+      - name: key-mount
+        hostPath:
+          path: {{ .Values.sshTunnel.localPemfile }}
+      {{- end }}
+---
+
+### Service for external traffic to investment API cluster pod
+apiVersion: v1
+kind: Service
+metadata:
+  name: investment-api-service-external
+  namespace: {{ .Values.kube.namespace }}
+spec:
+  type: NodePort
+  selector:
+    app: api
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+      nodePort: 30081
+---
+
+### Service for internal traffic to investment API cluster pod
+apiVersion: v1
+kind: Service
+metadata:
+  name: investment-api-service-internal
+  namespace: {{ .Values.kube.namespace }}
+spec:
+  type: ClusterIP
+  selector:
+    app: api
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+---

@@ -1,0 +1,78 @@
+---
+### Deployment for Grafana application
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: investment-dash
+  namespace: {{ .Values.kube.namespace }}
+spec:
+  replicas: {{ .Values.kube.replicaCount1 }}
+  selector:
+    matchLabels:
+      app: dash
+  template:
+    metadata:
+      labels:
+        app: dash
+    spec:
+      containers:
+        - name: container-investment-dashboard
+          image: "{{ .Values.docker.namespace }}/{{ .Values.docker.repository }}:dashboard"
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 3000
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: config-app
+                  key: APP_USERNAME
+            - name: SOURCE_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: config-app
+                  key: API_URL
+            - name: SOURCE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: secret-app
+                  key: api-key
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret-app
+                  key: app-password
+---
+
+### Service for external traffic to Grafana
+apiVersion: v1
+kind: Service
+metadata:
+  name: investment-dash-service-external
+  namespace: {{ .Values.kube.namespace }}
+spec:
+  type: NodePort
+  selector:
+    app: dash
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30001
+---
+
+### Service for internal traffic to Grafana
+apiVersion: v1
+kind: Service
+metadata:
+  name: investment-dash-service-internal
+  namespace: {{ .Values.kube.namespace }}
+spec:
+  type: ClusterIP
+  selector:
+    app: dash
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+---
