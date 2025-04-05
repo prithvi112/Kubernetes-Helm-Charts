@@ -1,3 +1,25 @@
 apiVersion: v1
-entries: {}
-generated: "2025-04-05T10:53:46.443588+05:30"
+entries:
+  kube-dashboard:
+  - apiVersion: v2
+    appVersion: 2.7.0
+    created: "2025-04-05T05:25:52.576621518Z"
+    description: Dashboard for monitoring kubernetes clusters
+    digest: d425671bdc46fa5267b2eaafe4653936d304043adb61d684957eb1e9619f0432
+    name: kube-dashboard
+    type: application
+    urls:
+    - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/kube-dashboard-v1.1.0/kube-dashboard-1.1.0.tgz
+    version: 1.1.0
+  system-log-aggregation:
+  - apiVersion: v2
+    appVersion: 8.0.0
+    created: "2025-04-05T05:25:52.62300567Z"
+    description: Logstash and Kibana for analysing logs in elasticsearch
+    digest: 2ace24c7b046888f5f1fbe84cd78b33486333ab2c4e54e5260ddae9f8d76e188
+    name: system-log-aggregation
+    type: application
+    urls:
+    - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/system-log-aggregation-v1.1.0/system-log-aggregation-1.1.0.tgz
+    version: 1.1.0
+generated: "2025-04-05T05:25:52.622674805Z"
