@@ -21,7 +21,7 @@ data:
 
     filter {
       grok {
-        match => { "message" => "%{MONTHDAY:day}-%{MONTHNUM:month}-%{YEAR:year} %{TIME:time} \| %{WORD:loggername} \| %{LOGLEVEL:level} \| %{GREEDYDATA:msg}" }
+        match => { "message" => "%{MONTHDAY:day}-%{MONTHNUM:month}-%{YEAR:year} %{TIME:time} \| %{DATA:loggername} \| %{LOGLEVEL:level} \| %{GREEDYDATA:msg}" }
       }
 
       mutate {
