@@ -6,7 +6,7 @@ metadata:
   name: investment-web
   namespace: {{ .Values.kube.namespace }}
 spec:
-  replicas: {{ .Values.kube.replicaCount1 }}
+  replicas: 1
   selector:
     matchLabels:
       app: web

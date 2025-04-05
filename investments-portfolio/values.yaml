@@ -1,8 +1,8 @@
 ### Values for configuring kubernetes cluster ###
 kube:
   namespace: investments
-  replicaCount1: 1
-  replicaCount2: 2
+  logForwarder:
+    enabled: False 
 
 ### Values for fetching docker images ###
 docker:
@@ -17,6 +17,8 @@ application:
     key: ${API_KEY}
   grafana:
     url: ${GRAFANA_URL}
+  logstash:
+    url: ${LOGSTASH_URL}
   username: ${APP_USERNAME}
   password: ${APP_PASSWORD}
 

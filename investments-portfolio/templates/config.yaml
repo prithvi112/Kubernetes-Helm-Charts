@@ -36,6 +36,29 @@ data:
   APP_USERNAME: {{ .Values.application.username }}
 ---
 
+### Configmap for Filebeat sidecar
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-filebeat
+  namespace: {{ .Values.kube.namespace }}
+data:
+  filebeat.yml: |
+    filebeat.inputs:
+      - type: log
+        paths:
+          - /var/log/*.log
+        fields:
+          app_name: investments-logs
+          pod_name: ${POD_NAME}
+        multiline.pattern: '^\d{2}-\d{2}-\d{4}'
+        multiline.negate: true
+        multiline.match: after
+
+    output.logstash:
+      hosts: ["{{ .Values.application.logstash.url }}"]
+---
+
 ### Secrets for API variables ###
 apiVersion: v1
 kind: Secret
