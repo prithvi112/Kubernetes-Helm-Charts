@@ -1,6 +1,6 @@
 apiVersion: v2
 name: system-log-aggregation
-description: Logstash and Kibana for analysing logs in elasticsearch
+description: Logstash and Kibana pods for analysing logs in elasticsearch
 type: application
 version: 1.2.0
 appVersion: "8.0.0"
