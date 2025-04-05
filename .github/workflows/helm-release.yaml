@@ -1,0 +1,124 @@
+name: Helm Chart Release
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '**/Chart.yaml'
+
+jobs:
+  detect-chart-change:
+    runs-on: ubuntu-latest
+    outputs:
+      changed_charts: ${{ steps.find-charts.outputs.chart_dirs }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Find changed Helm chart folders
+        id: find-charts
+        run: |
+          CHANGED_FILES=$(git diff --name-only HEAD~1)
+          CHART_DIRS=$(echo "$CHANGED_FILES" | grep "Chart.yaml" | xargs -n 1 dirname | uniq || echo "")
+
+          # Remove quotes, trim spaces, and remove empty lines
+          CHART_DIRS_CLEAN=$(echo "$CHART_DIRS" | tr -d '"' | awk '{$1=$1};1' | sed '/^$/d')
+          CHART_DIRS_JSON=$(echo "$CHART_DIRS_CLEAN" | awk '{print "\""$0"\""}' | paste -sd "," - | sed 's/^/[/;s/$/]/')
+
+          # Validate JSON before setting it as output
+          if ! echo "$CHART_DIRS_JSON" | jq empty; then
+            echo "ERROR: JSON Formatting Failed. Check CHART_DIRS."
+            exit 1
+          fi
+          echo "::set-output name=chart_dirs::$CHART_DIRS_JSON"
+
+  package-and-release:
+    needs: detect-chart-change
+    runs-on: ubuntu-latest
+    if: needs.detect-chart-change.outputs.changed_charts != '[]'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Package and release Helm charts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+        run: |
+          CHART_DIRS='${{ needs.detect-chart-change.outputs.changed_charts }}'
+          
+          for chart in $(echo "$CHART_DIRS" | jq -r '.[]'); do
+            VERSION=$(grep '^version:' $chart/Chart.yaml | awk '{print $2}')
+            CHART_NAME=$(basename $chart)
+            RELEASE_NAME="${CHART_NAME}-v${VERSION}"
+
+            echo "Packaging Helm chart: $CHART_NAME (version: $VERSION)"
+            helm package $chart
+
+            echo "Creating GitHub release: $RELEASE_NAME"
+            gh release create "$RELEASE_NAME" ./$CHART_NAME-$VERSION.tgz \
+              --title "$RELEASE_NAME" \
+              --notes "Automated release of $CHART_NAME (version: $VERSION)"
+          done
+
+      - name: Upload packaged charts as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: packaged-charts
+          path: ./*.tgz
+
+  update-index:
+    needs: package-and-release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - name: Set up Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Download packaged charts
+        uses: actions/download-artifact@v4
+        with:
+          name: packaged-charts
+          path: charts/
+
+      - name: Generate index.yaml for each chart
+        run: |
+          for chart in charts/*.tgz; do
+            filename=$(basename "$chart")
+            version=$(echo "$filename" | sed -E 's/.*-([0-9]+\.[0-9]+\.[0-9]+)\.tgz/\1/')
+            folder_name=$(tar -tzf "$chart" | head -1 | cut -d '/' -f1)
+            tag="${folder_name}-v${version}"
+
+            echo "📦 Chart: $folder_name, Version: $version, Tag: $tag"
+
+            tmp_dir="tmp-${folder_name}"
+            mkdir -p "$tmp_dir"
+            cp "$chart" "$tmp_dir/"
+
+            # Merge into existing index.yaml
+            helm repo index "$tmp_dir" \
+              --url "https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/${tag}" \
+              --merge index.yaml
+
+            # Overwrite index.yaml with merged version
+            cp "$tmp_dir/index.yaml" index.yaml
+            rm -rf "$tmp_dir"
+          done
+
+      - name: Commit and push updated index.yaml
+        run: |
+          git add index.yaml
+          git commit -m "🔄 Update Helm index.yaml [skip ci]" || echo "No changes to commit"
+          git push origin master
