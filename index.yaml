@@ -25,6 +25,16 @@ entries:
   system-log-aggregation:
   - apiVersion: v2
     appVersion: 8.0.0
+    created: "2025-04-05T16:02:21.215744935Z"
+    description: Logstash and Kibana pods for analysing logs in elasticsearch
+    digest: 1f096a9f9953e3fcce74a1fab3e014e004b37c24b062757726dff808cf73b78d
+    name: system-log-aggregation
+    type: application
+    urls:
+    - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/system-log-aggregation-v1.4.0/system-log-aggregation-1.4.0.tgz
+    version: 1.4.0
+  - apiVersion: v2
+    appVersion: 8.0.0
     created: "2025-04-05T15:01:39.349790464Z"
     description: Logstash and Kibana pods for analysing logs in elasticsearch
     digest: ba75a3c994116a79aeab667ceec756ce432c955bcb7fe78dd04687d1281c6cb9
@@ -53,4 +63,4 @@ entries:
     urls:
     - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/system-log-aggregation-v1.1.0/system-log-aggregation-1.1.0.tgz
     version: 1.1.0
-generated: "2025-04-05T15:01:39.349163469Z"
+generated: "2025-04-05T16:02:21.21541503Z"
