@@ -1,0 +1,86 @@
+---
+### Namespace for the system ###
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.kube.namespace }}
+---
+### Configuration for Logstash
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-logstash
+  namespace: {{ .Values.kube.namespace }}
+data:
+  logstash.conf: |
+    input {
+      beats {
+        port => 5044
+      }
+    }
+
+    filter {
+      grok {
+        match => { "message" => "%{MONTHDAY:day}-%{MONTHNUM:month}-%{YEAR:year} %{TIME:time} \| %{WORD:loggername} \| %{LOGLEVEL:level} \| %{GREEDYDATA:msg}" }
+      }
+
+      mutate {
+        add_field => { "timestamp" => "%{year}-%{month}-%{day} %{time}" }
+        remove_field => ["year", "month", "day", "time"]
+      }
+
+      date {
+        match => ["timestamp", "yyyy-MM-dd HH:mm:ss"]
+        target => "@timestamp"
+      }
+
+      ## Extracting App Name as a Tag
+      if [fields][app_name] {
+        mutate { add_tag => ["%{[fields][app_name]}"] }
+      }
+
+      ## Dynamically Extract First Two Parts of Pod Name as Tag
+      if [fields][pod_name] {
+        mutate {
+          split => { "[fields][pod_name]" => "-" }  # Split pod_name at "-"
+        }
+        ## Combine the first two parts into a single tag
+        if [fields][pod_name][1] {
+          mutate {
+            add_field => { "pod_role" => "%{[fields][pod_name][0]}-%{[fields][pod_name][1]}" }
+          }
+        }
+      }
+
+      ## Add the extracted pod role as a tag
+      if [pod_role] {
+        mutate { add_tag => ["%{pod_role}"] }
+      }
+    }
+
+
+    output {
+      elasticsearch {
+        hosts => ["https://host.docker.internal:9200"]
+        user => "${SEARCH_USERNAME}"
+        password => "${SEARCH_PASSWORD}"
+        index => "%{[fields][app_name]}"
+        ssl => true
+        ssl_certificate_verification => false
+      }
+    }
+---
+
+### Secrets for Elasticsearch credentials ###
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret-es-credentials
+  namespace: {{ .Values.kube.namespace }}
+type: Opaque
+data:
+  logstash-es-user: {{ .Values.search.logstash.username | b64enc | quote }}
+  logstash-es-password: {{ .Values.search.logstash.password | b64enc | quote }}
+  kibana-es-user: {{ .Values.search.kibana.username | b64enc | quote }}
+  kibana-es-password: {{ .Values.search.kibana.password | b64enc | quote }}
+---

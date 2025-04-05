@@ -1,0 +1,13 @@
+### Values for configuring kubernetes cluster ###
+kube:
+  namespace: monitoring
+  replicaCount: 1
+
+### Values for credentials of Elasticsearch
+search:
+  logstash:
+    username: ${LOGSTASH_ES_USERNAME}
+    password: ${LOGSTASH_ES_PASSWORD}
+  kibana:
+    username: ${KIBANA_ES_USERNAME}
+    password: ${KIBANA_ES_PASSWORD}

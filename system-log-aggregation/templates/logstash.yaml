@@ -1,0 +1,54 @@
+---
+### Deployment for Logstash
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logstash
+  namespace: {{ .Values.kube.namespace }}
+spec:
+  replicas: {{ .Values.kube.replicaCount }}
+  selector:
+    matchLabels:
+      app: logstash
+  template:
+    metadata:
+      labels:
+        app: logstash
+    spec:
+      containers:
+        - name: logstash
+          image: docker.elastic.co/logstash/logstash:8.0.0
+          ports:
+            - containerPort: 5044 # Listen for filebeat input
+          env:
+          - name: SEARCH_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: secret-es-credentials
+                key: logstash-es-user
+          - name: SEARCH_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: secret-es-credentials
+                key: logstash-es-password
+          volumeMounts:
+            - name: config-logstash
+              mountPath: /usr/share/logstash/pipeline/logstash.conf
+              subPath: logstash.conf
+      volumes:
+        - name: config-logstash
+          configMap:
+            name: config-logstash
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: logstash
+  namespace: {{ .Values.kube.namespace }}
+spec:
+  selector:
+    app: logstash
+  ports:
+    - port: 5044
+      targetPort: 5044
+---
