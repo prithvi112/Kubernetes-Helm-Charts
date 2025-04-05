@@ -5,6 +5,7 @@ kube:
 
 ### Values for credentials of Elasticsearch
 search:
+  url: ${SEARCH_URL}
   logstash:
     username: ${LOGSTASH_ES_USERNAME}
     password: ${LOGSTASH_ES_PASSWORD}

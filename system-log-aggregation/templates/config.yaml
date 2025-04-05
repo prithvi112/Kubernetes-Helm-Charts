@@ -61,7 +61,7 @@ data:
 
     output {
       elasticsearch {
-        hosts => ["https://host.docker.internal:9200"]
+        hosts => ["${SEARCH_URL}"]
         user => "${SEARCH_USERNAME}"
         password => "${SEARCH_PASSWORD}"
         index => "%{[fields][app_name]}"

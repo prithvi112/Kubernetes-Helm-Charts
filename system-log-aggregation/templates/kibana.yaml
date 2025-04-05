@@ -22,7 +22,7 @@ spec:
             - containerPort: 5601
           env:
             - name: ELASTICSEARCH_HOSTS
-              value: "https://host.docker.internal:9200"
+              value: {{ .Values.search.url }}
             - name: ELASTICSEARCH_USERNAME
               valueFrom:
                 secretKeyRef:

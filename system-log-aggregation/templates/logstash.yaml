@@ -21,6 +21,8 @@ spec:
           ports:
             - containerPort: 5044 # Listen for filebeat input
           env:
+          - name: SEARCH_URL
+            value: {{ .Values.search.url }}
           - name: SEARCH_USERNAME
             valueFrom:
               secretKeyRef:
