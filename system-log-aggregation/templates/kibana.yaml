@@ -6,7 +6,7 @@ metadata:
   name: kibana
   namespace: {{ .Values.kube.namespace }}
 spec:
-  replicas: {{ .Values.kube.replicaCount }}
+  replicas: {{ .Values.kibana.replica }}
   selector:
     matchLabels:
       app: kibana
@@ -17,24 +17,33 @@ spec:
     spec:
       containers:
         - name: kibana
-          image: docker.elastic.co/kibana/kibana:8.0.0
+          {{- if eq .Values.search.engine "elasticsearch" }}
+          image: "docker.elastic.co/kibana/kibana:{{ .Values.kibana.version }}"
           ports:
             - containerPort: 5601
           env:
             - name: ELASTICSEARCH_HOSTS
               value: {{ .Values.search.url }}
             - name: ELASTICSEARCH_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: secret-es-credentials
-                  key: kibana-es-user
+              value: "{{ .Values.kibana.elasticUsername }}"
             - name: ELASTICSEARCH_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: secret-es-credentials
-                  key: kibana-es-password
+              value: "{{ .Values.kibana.elasticPassword }}"
             - name: ELASTICSEARCH_SSL_VERIFICATIONMODE
               value: "none"
+          {{- else }}
+          image: "opensearchproject/opensearch-dashboards:latest"
+          ports:
+            - containerPort: 5601
+          env:
+            - name: OPENSEARCH_HOSTS
+              value: {{ .Values.search.url }}
+            - name: OPENSEARCH_USERNAME
+              value: "{{ .Values.kibana.elasticUsername }}"
+            - name: OPENSEARCH_PASSWORD
+              value: "{{ .Values.kibana.elasticPassword }}"
+            - name: OPENSEARCH_SSL_VERIFICATIONMODE
+              value: "none"
+          {{- end }}
 ---
 
 kind: Service

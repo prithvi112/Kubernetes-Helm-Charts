@@ -6,7 +6,7 @@ metadata:
   name: logstash
   namespace: {{ .Values.kube.namespace }}
 spec:
-  replicas: {{ .Values.kube.replicaCount }}
+  replicas: {{ .Values.logstash.replica }}
   selector:
     matchLabels:
       app: logstash
@@ -17,24 +17,13 @@ spec:
     spec:
       containers:
         - name: logstash
-          image: docker.elastic.co/logstash/logstash:8.0.0
+          {{- if eq .Values.search.type "elasticsearch" }}
+          image: "docker.elastic.co/logstash/logstash:{{ .Values.logstash.version }}"
+          {{- else }}
+          image: "opensearchproject/logstash-oss-with-opensearch-output-plugin:latest"
+          {{- end }}
           ports:
             - containerPort: 5044
-          env:
-          - name: SEARCH_URL
-            value: {{ .Values.search.url }}
-          - name: SEARCH_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: secret-es-credentials
-                key: logstash-es-user
-          - name: SEARCH_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: secret-es-credentials
-                key: logstash-es-password
-          - name: LOGSTASH_ENVIRONMENT
-            value: "true"
           volumeMounts:
             - name: config-logstash
               mountPath: /usr/share/logstash/pipeline

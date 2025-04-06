@@ -34,11 +34,6 @@ data:
         target => "@timestamp"
       }
 
-      ## Extracting App Name as a Tag
-      if [fields][app_name] {
-        mutate { add_tag => ["%{[fields][app_name]}"] }
-      }
-
       ## Dynamically Extract First Two Parts of Pod Name as Tag
       if [fields][pod_name] {
         mutate {
@@ -58,30 +53,17 @@ data:
       }
     }
 
-
+    
     output {
       stdout { codec => rubydebug }
-      elasticsearch {
-        hosts => ["${SEARCH_URL}"]
-        user => "${SEARCH_USERNAME}"
-        password => "${SEARCH_PASSWORD}"
+      {{ .Values.search.engine }} {
+        hosts => ["{{ .Values.search.url }}"]
+        user => "{{ .Values.logstash.elasticUsername }}"
+        password => "{{ .Values.logstash.elasticPassword }}"
         index => "%{[fields][app_name]}"
         ssl => true
         ssl_certificate_verification => false
       }
     }
----
 
-### Secrets for Elasticsearch credentials ###
-apiVersion: v1
-kind: Secret
-metadata:
-  name: secret-es-credentials
-  namespace: {{ .Values.kube.namespace }}
-type: Opaque
-data:
-  logstash-es-user: {{ .Values.search.logstash.username | b64enc | quote }}
-  logstash-es-password: {{ .Values.search.logstash.password | b64enc | quote }}
-  kibana-es-user: {{ .Values.search.kibana.username | b64enc | quote }}
-  kibana-es-password: {{ .Values.search.kibana.password | b64enc | quote }}
 ---
