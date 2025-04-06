@@ -35,6 +35,31 @@ spec:
                 secretKeyRef:
                   name: secret-app
                   key: app-password
+          volumeMounts:
+          - name: shared-logs
+            mountPath: /web/logs
+
+      {{- if .Values.kube.logForwarder.enabled }}
+        - name: container-forwarder-filebeat
+          image: docker.elastic.co/beats/filebeat:8.0.0
+          volumeMounts:
+          - name: shared-logs
+            mountPath: /var/log
+          - name: config-filebeat
+            mountPath: /usr/share/filebeat/filebeat.yml
+            subPath: filebeat.yml
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+      volumes:
+        - name: shared-logs
+          emptyDir: {}
+        - name: config-filebeat
+          configMap:
+            name: config-filebeat
+      {{- end }}
 ---
 
 ### Service for external traffic to investment API cluster pod
