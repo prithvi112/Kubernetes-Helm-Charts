@@ -20,7 +20,7 @@ spec:
           {{- if eq .Values.search.type "elasticsearch" }}
           image: "docker.elastic.co/logstash/logstash:{{ .Values.logstash.version }}"
           {{- else }}
-          image: "opensearchproject/logstash-oss-with-opensearch-output-plugin:latest"
+          image: "opensearchproject/logstash-oss-with-opensearch-output-plugin:{{ .Values.logstash.version }}"
           {{- end }}
           ports:
             - containerPort: 5044
