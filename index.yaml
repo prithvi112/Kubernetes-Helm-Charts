@@ -3,6 +3,16 @@ entries:
   investments-portfolio:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2025-04-06T04:42:55.666213878Z"
+    description: Web and API to monitor any investment portfolio
+    digest: c53779a6a26e3a7391cf91ad2da3507eec088ef6f499dc23df6542754775c8fe
+    name: investments-portfolio
+    type: application
+    urls:
+    - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/investments-portfolio-v1.2.0/investments-portfolio-1.2.0.tgz
+    version: 1.2.0
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2025-04-05T05:42:05.269569353Z"
     description: Web and API to monitor any investment portfolio
     digest: 91264a88c1346e8c59ac7156b4accea05057472caf4210a361b3c5056ef0f1ac
@@ -63,4 +73,4 @@ entries:
     urls:
     - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/system-log-aggregation-v1.1.0/system-log-aggregation-1.1.0.tgz
     version: 1.1.0
-generated: "2025-04-05T16:02:21.21541503Z"
+generated: "2025-04-06T04:42:55.665807502Z"
