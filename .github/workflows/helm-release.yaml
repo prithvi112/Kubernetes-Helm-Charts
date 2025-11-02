@@ -50,6 +50,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
         run: |
           CHART_DIRS='${{ needs.detect-chart-change.outputs.changed_charts }}'
+          echo "$GITHUB_TOKEN" | gh auth login --with-token
           
           for chart in $(echo "$CHART_DIRS" | jq -r '.[]'); do
             VERSION=$(grep '^version:' $chart/Chart.yaml | awk '{print $2}')
