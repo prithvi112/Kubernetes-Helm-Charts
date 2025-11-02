@@ -32,6 +32,17 @@ entries:
     urls:
     - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/jellyfin-v1.0.0/jellyfin-1.0.0.tgz
     version: 1.0.0
+  jenkins:
+  - apiVersion: v2
+    appVersion: 2.534.0
+    created: "2025-11-02T08:13:14.564292401Z"
+    description: CICD Pipeline tool for managing application release deployment
+    digest: 2136ac53a1e0708b02bc66735656ed269587a066d39025e98ad7646bcf3a80f3
+    name: jenkins
+    type: application
+    urls:
+    - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/jenkins-v1.0.0/jenkins-1.0.0.tgz
+    version: 1.0.0
   kube-dashboard:
   - apiVersion: v2
     appVersion: 2.7.0
@@ -104,4 +115,4 @@ entries:
     urls:
     - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/system-log-aggregation-v1.1.0/system-log-aggregation-1.1.0.tgz
     version: 1.1.0
-generated: "2025-11-02T06:53:23.282148444Z"
+generated: "2025-11-02T08:13:14.559218804Z"
