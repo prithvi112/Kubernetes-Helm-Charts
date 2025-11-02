@@ -1,0 +1,8 @@
+kube:
+  namespace: jellyfin
+
+volume:
+  config: /mnt/shared/jellyfin/config
+  cache: /mnt/shared/jellyfin/cache
+  movies: /mnt/shared/jellyfin/movies
+  shows: /mnt/shared/jellyfin/shows

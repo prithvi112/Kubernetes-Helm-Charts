@@ -21,3 +21,4 @@ Repository for all my helm charts
 | Platform | Kubernetes Dashboard | Dashboard to monitor kubernetes clusters | kube-dashboard | NO |
 | Application | Investment Portfolio | Application to monitor all investments and portfolio | investments-portfolio | YES |
 | Platform | System Log Aggregation | Update and perform log analysis on Elasticsearch | system-log-aggregation | YES |
+| Application | Jellyfin | Media server for hosting movies and shows | YES |
