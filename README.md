@@ -22,3 +22,4 @@ Repository for all my helm charts
 | Application | Investment Portfolio | Application to monitor all investments and portfolio | investments-portfolio | YES |
 | Platform | System Log Aggregation | Update and perform log analysis on Elasticsearch | system-log-aggregation | YES |
 | Application | Jellyfin | Media server for hosting movies and shows | jellyfin | YES |
+| Application | Jenkins | CICD Pipeline tool for managing application release deployment | jenkins | YES |

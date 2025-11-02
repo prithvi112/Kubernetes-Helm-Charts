@@ -1,0 +1,6 @@
+apiVersion: v2
+name: jenkins
+description: CICD Pipeline tool for managing application release deployment
+type: application
+version: 1.0.0
+appVersion: "2.534.0"
