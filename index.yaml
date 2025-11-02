@@ -21,6 +21,17 @@ entries:
     urls:
     - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/investments-portfolio-v1.1.0/investments-portfolio-1.1.0.tgz
     version: 1.1.0
+  jellyfin:
+  - apiVersion: v2
+    appVersion: 10.11.1
+    created: "2025-11-02T06:53:23.282516111Z"
+    description: Media server for hosting movies and shows
+    digest: 424dbd1d99f32e3fd1daa4c1404fc2b88cc119280382ced1928e00ae45e83712
+    name: jellyfin
+    type: application
+    urls:
+    - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/jellyfin-v1.0.0/jellyfin-1.0.0.tgz
+    version: 1.0.0
   kube-dashboard:
   - apiVersion: v2
     appVersion: 2.7.0
@@ -93,4 +104,4 @@ entries:
     urls:
     - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/system-log-aggregation-v1.1.0/system-log-aggregation-1.1.0.tgz
     version: 1.1.0
-generated: "2025-04-06T11:57:17.715922296Z"
+generated: "2025-11-02T06:53:23.282148444Z"
