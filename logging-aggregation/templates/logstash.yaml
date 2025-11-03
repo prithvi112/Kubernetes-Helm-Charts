@@ -1,10 +1,9 @@
 ---
-### Deployment for Logstash
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: logstash
-  namespace: {{ .Values.kube.namespace }}
+  namespace: logging
 spec:
   replicas: {{ .Values.logstash.replica }}
   selector:
@@ -17,7 +16,7 @@ spec:
     spec:
       containers:
         - name: logstash
-          {{- if eq .Values.search.type "elasticsearch" }}
+          {{- if eq .Values.search.engine "elasticsearch" }}
           image: "docker.elastic.co/logstash/logstash:{{ .Values.logstash.version }}"
           {{- else }}
           image: "opensearchproject/logstash-oss-with-opensearch-output-plugin:{{ .Values.logstash.version }}"
@@ -31,16 +30,4 @@ spec:
         - name: config-logstash
           configMap:
             name: config-logstash
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: logstash
-  namespace: {{ .Values.kube.namespace }}
-spec:
-  selector:
-    app: logstash
-  ports:
-    - port: 5044
-      targetPort: 5044
 ---
