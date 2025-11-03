@@ -1,11 +1,17 @@
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: jellyfin
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jellyfin
   namespace: jellyfin
 spec:
-  replicas: 1
+  replicas: {{ .Values.cluster.replicas }}
   selector:
     matchLabels:
       app: jellyfin
@@ -16,7 +22,7 @@ spec:
     spec:
       containers:
         - name: jellyfin
-          image: jellyfin/jellyfin:latest
+          image: jellyfin/jellyfin
           ports:
             - containerPort: 8096
           volumeMounts:
@@ -30,14 +36,14 @@ spec:
               mountPath: /media/shows
       volumes:
         - name: config
-          hostPath:
-            path: {{ .Values.volume.config }}
+          persistentVolumeClaim:
+            claimName: pvc-jellyfin-config
         - name: cache
-          hostPath:
-            path: {{ .Values.volume.cache }}
+          persistentVolumeClaim:
+            claimName: pvc-jellyfin-cache
         - name: movies
-          hostPath:
-            path: {{ .Values.volume.movies }}
+          persistentVolumeClaim:
+            claimName: pvc-jellyfin-movies
         - name: shows
-          hostPath:
-            path: {{ .Values.volume.shows }}
+          persistentVolumeClaim:
+            claimName: pvc-jellyfin-shows
