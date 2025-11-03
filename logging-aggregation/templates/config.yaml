@@ -1,16 +1,9 @@
 ---
-### Namespace for the system ###
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: {{ .Values.kube.namespace }}
----
-### Configuration for Logstash
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: config-logstash
-  namespace: {{ .Values.kube.namespace }}
+  namespace: logging
 data:
   logstash.conf: |
     input {
@@ -65,5 +58,3 @@ data:
         ssl_certificate_verification => false
       }
     }
-
----
