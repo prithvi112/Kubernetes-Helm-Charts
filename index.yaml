@@ -84,6 +84,17 @@ entries:
     urls:
     - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/kube-dashboard-v1.1.0/kube-dashboard-1.1.0.tgz
     version: 1.1.0
+  logging-aggregation:
+  - apiVersion: v2
+    appVersion: 8.0.0
+    created: "2025-11-03T12:22:15.046638371Z"
+    description: Logstash and Kibana pods for analysing logs in elasticsearch
+    digest: 3edbfa1536ec00fa9bf0dd13e8935131766d462a84c69c046ae62b91e3cb346c
+    name: logging-aggregation
+    type: application
+    urls:
+    - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/logging-aggregation-v1.7.0/logging-aggregation-1.7.0.tgz
+    version: 1.7.0
   system-log-aggregation:
   - apiVersion: v2
     appVersion: 8.0.0
@@ -145,4 +156,4 @@ entries:
     urls:
     - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/system-log-aggregation-v1.1.0/system-log-aggregation-1.1.0.tgz
     version: 1.1.0
-generated: "2025-11-03T07:23:29.44921285Z"
+generated: "2025-11-03T12:22:15.046260635Z"
