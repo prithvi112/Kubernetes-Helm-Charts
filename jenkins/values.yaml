@@ -1,2 +1,12 @@
-volume:
-  home: /mnt/shared/jenkins
+cluster:
+  replicas: 1
+
+storage:
+  volume:
+    size: 5Gi
+    path: /mnt/shared/jenkins
+
+ingress:
+  enabled: true
+  hosts:
+    - jenkins.pipeline.local
