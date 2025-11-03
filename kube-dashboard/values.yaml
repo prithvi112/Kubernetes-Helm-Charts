@@ -1,0 +1,10 @@
+cluster:
+  dashboard:
+    replica: 1
+  scraper:
+    replica: 1
+
+ingress:
+  enabled: true
+  hosts:
+    - kube.dashboard.local
