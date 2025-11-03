@@ -66,6 +66,16 @@ entries:
   kube-dashboard:
   - apiVersion: v2
     appVersion: 2.7.0
+    created: "2025-11-03T07:23:29.449552534Z"
+    description: Dashboard for monitoring kubernetes clusters
+    digest: 4e9cb3e72f45731c677ed349b054c95a9796846c7901b6e4cdbdf03b0d8199e9
+    name: kube-dashboard
+    type: application
+    urls:
+    - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/kube-dashboard-v1.2.0/kube-dashboard-1.2.0.tgz
+    version: 1.2.0
+  - apiVersion: v2
+    appVersion: 2.7.0
     created: "2025-04-05T05:25:52.576621518Z"
     description: Dashboard for monitoring kubernetes clusters
     digest: d425671bdc46fa5267b2eaafe4653936d304043adb61d684957eb1e9619f0432
@@ -135,4 +145,4 @@ entries:
     urls:
     - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/system-log-aggregation-v1.1.0/system-log-aggregation-1.1.0.tgz
     version: 1.1.0
-generated: "2025-11-03T06:58:11.101882188Z"
+generated: "2025-11-03T07:23:29.44921285Z"
