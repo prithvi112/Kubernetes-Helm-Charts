@@ -24,6 +24,16 @@ entries:
   jellyfin:
   - apiVersion: v2
     appVersion: 10.11.1
+    created: "2025-11-03T06:58:11.050254557Z"
+    description: Media server for hosting movies and shows
+    digest: 1b56bd743e9cc76e8e0828edbd708d0802239c8c7a2c7741b42652e09c680f99
+    name: jellyfin
+    type: application
+    urls:
+    - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/jellyfin-v1.1.0/jellyfin-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v2
+    appVersion: 10.11.1
     created: "2025-11-02T06:53:23.282516111Z"
     description: Media server for hosting movies and shows
     digest: 424dbd1d99f32e3fd1daa4c1404fc2b88cc119280382ced1928e00ae45e83712
@@ -33,6 +43,16 @@ entries:
     - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/jellyfin-v1.0.0/jellyfin-1.0.0.tgz
     version: 1.0.0
   jenkins:
+  - apiVersion: v2
+    appVersion: 2.534.0
+    created: "2025-11-03T06:58:11.102138997Z"
+    description: CICD Pipeline tool for managing application release deployment
+    digest: 3a54bef79b2d3ee290132f16bd9c342dd3e021efd66549e8328d30db80786e31
+    name: jenkins
+    type: application
+    urls:
+    - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/jenkins-v1.1.0/jenkins-1.1.0.tgz
+    version: 1.1.0
   - apiVersion: v2
     appVersion: 2.534.0
     created: "2025-11-02T08:13:14.564292401Z"
@@ -115,4 +135,4 @@ entries:
     urls:
     - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/system-log-aggregation-v1.1.0/system-log-aggregation-1.1.0.tgz
     version: 1.1.0
-generated: "2025-11-02T08:13:14.559218804Z"
+generated: "2025-11-03T06:58:11.101882188Z"
