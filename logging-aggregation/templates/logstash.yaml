@@ -23,6 +23,19 @@ spec:
           {{- end }}
           ports:
             - containerPort: 5044
+          env:
+            - name: SEARCH_HOST
+              value: {{ .Values.search.url }}
+            - name: SEARCH_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: secret-logstash
+                  key: logstash-username
+            - name: SEARCH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret-logstash
+                  key: logstash-password
           volumeMounts:
             - name: config-logstash
               mountPath: /usr/share/logstash/pipeline

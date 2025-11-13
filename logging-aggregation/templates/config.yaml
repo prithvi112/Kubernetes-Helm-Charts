@@ -5,56 +5,84 @@ metadata:
   name: config-logstash
   namespace: logging
 data:
-  logstash.conf: |
+  input.conf: |
     input {
       beats {
         port => 5044
       }
     }
 
+{{- range .Values.logstash.pipelines }}
+  {{ .name }}.conf: |
     filter {
-      grok {
-        match => { "message" => "%{MONTHDAY:day}-%{MONTHNUM:month}-%{YEAR:year} %{TIME:time} \| %{DATA:loggername} \| %{LOGLEVEL:level} \| %{GREEDYDATA:msg}" }
-      }
-
-      mutate {
-        add_field => { "timestamp" => "%{year}-%{month}-%{day} %{time}" }
-        remove_field => ["year", "month", "day", "time"]
-      }
-
-      date {
-        match => ["timestamp", "yyyy-MM-dd HH:mm:ss"]
-        target => "@timestamp"
-      }
-
-      ## Dynamically Extract First Two Parts of Pod Name as Tag
-      if [fields][pod_name] {
-        mutate {
-          split => { "[fields][pod_name]" => "-" }  # Split pod_name at "-"
-        }
-        ## Combine the first two parts into a single tag
-        if [fields][pod_name][1] {
-          mutate {
-            add_field => { "pod_role" => "%{[fields][pod_name][0]}-%{[fields][pod_name][1]}" }
-          }
-        }
-      }
-
-      ## Add the extracted pod role as a tag
-      if [pod_role] {
-        mutate { add_tag => ["%{pod_role}"] }
-      }
+      {{- nindent 6 .filter }}
     }
 
-    
     output {
-      stdout { codec => rubydebug }
-      {{ .Values.search.engine }} {
-        hosts => ["{{ .Values.search.url }}"]
-        user => "{{ .Values.logstash.elasticUsername }}"
-        password => "{{ .Values.logstash.elasticPassword }}"
-        index => "%{[fields][app_name]}"
+      {{ $.Values.search.engine }} {
+        hosts => ["${SEARCH_HOST}"]
+        user => "${SEARCH_USERNAME}"
+        password => "${SEARCH_PASSWORD}"
+        index => "{{ .index }}-%{+YYYY.MM.dd}"
         ssl => true
         ssl_certificate_verification => false
       }
     }
+{{- end }}
+
+
+---
+{{- if .Values.filebeat.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-filebeat
+  namespace: logging
+data:
+  filebeat.yml: |
+    filebeat.autodiscover:
+      providers:
+        - type: kubernetes
+          node: ${NODE_NAME}
+          hints.enabled: true
+          hints.default_config:
+            type: container
+            json.keys_under_root: true
+            json.add_error_key: true
+            containers.stream: all
+      add_resource_metadata:
+        namespace: true
+        labels: true
+        annotations: true
+    processors:
+      - add_kubernetes_metadata:
+          host: ${NODE_NAME}
+          matchers:
+            - logs_path:
+                logs_path: "/var/log/containers/"
+
+    output.logstash:
+      hosts: ["service-logstash.logging.svc.cluster.local:5044"]
+{{- end }}
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret-logstash
+  namespace: logging
+type: Opaque
+data:
+  logstash-username: {{ .Values.logstash.elasticUsername | b64enc | quote }}
+  logstash-password: {{ .Values.logstash.elasticPassword | b64enc | quote }}
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret-kibana
+  namespace: logging
+type: Opaque
+data:
+  kibana-username: {{ .Values.kibana.elasticUsername | b64enc | quote }}
+  kibana-password: {{ .Values.kibana.elasticPassword | b64enc | quote }}
