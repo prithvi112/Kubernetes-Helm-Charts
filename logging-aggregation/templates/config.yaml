@@ -19,8 +19,8 @@ data:
         mutate {
           add_tag => ["{{ .name }}"]
         }
+        {{- nindent 6 .filter }}
       }
-      {{- nindent 6 .filter }}
     }
 
     output {
@@ -52,11 +52,7 @@ data:
         - type: kubernetes
           node: ${NODE_NAME}
           hints.enabled: true
-          hints.default_config:
-            type: container
-            json.keys_under_root: true
-            json.add_error_key: true
-            containers.stream: all
+          hints.default_config: false
       add_resource_metadata:
         namespace: true
         labels: true
