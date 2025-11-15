@@ -19,13 +19,13 @@ spec:
     metadata:
       labels:
         app: jellyfin
-      annotations:
-        co.elastic.logs/enabled: "true"
-        co.elastic.logs/json.keys_under_root: "false"
-        co.elastic.logs/json.add_error_key: "false"
-        co.elastic.logs/multiline.pattern: '^\['
-        co.elastic.logs/multiline.negate: "true"
-        co.elastic.logs/multiline.match: "after"
+      #annotations:
+      #  co.elastic.logs/enabled: "true"
+      #  co.elastic.logs/json.keys_under_root: "false"
+      #  co.elastic.logs/json.add_error_key: "false"
+      #  co.elastic.logs/multiline.pattern: '^\['
+      #  co.elastic.logs/multiline.negate: "true"
+      #  co.elastic.logs/multiline.match: "after"
     spec:
       containers:
         - name: jellyfin
