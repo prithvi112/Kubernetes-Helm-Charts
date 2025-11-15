@@ -20,9 +20,7 @@ spec:
       labels:
         app: jellyfin
       annotations:
-        co.elastic.logs/enabled: "true"
-        co.elastic.logs/json.keys_under_root: "false"
-        co.elastic.logs/json.add_error_key: "false"
+        co.elastic.logs/enabled: "{{ .Values.logging.enabled }}"
         co.elastic.logs/multiline.pattern: '^\['
         co.elastic.logs/multiline.negate: "true"
         co.elastic.logs/multiline.match: "after"
