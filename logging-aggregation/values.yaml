@@ -8,16 +8,9 @@ logstash:
   elasticUsername: 
   elasticPassword: 
   pipelines:
-    - name: traefik
-      index: "logs-ingress-traefik"
-      filter: |
-        mutate {
-          copy => {
-            "[kubernetes][labels][app_kubernetes_io/name]" => "app_name"
-            "[kubernetes][namespace]"   => "namespace"
-            "[kubernetes][pod][name]"   => "pod_name"
-          }
-        }
+    - name: < container name >
+      index: < search index >
+      filter: < log parsing filters >
 
 kibana:
   replica: 1
