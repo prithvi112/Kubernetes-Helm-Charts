@@ -97,6 +97,16 @@ entries:
   logging-aggregation:
   - apiVersion: v2
     appVersion: 8.0.0
+    created: "2025-11-15T09:40:32.297931504Z"
+    description: Logstash and Kibana pods for analysing logs in elasticsearch
+    digest: 356e1e847b7a79137af6deb294a73af19cf2368c7bf1acdf51d4f8bb2d11891f
+    name: logging-aggregation
+    type: application
+    urls:
+    - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/logging-aggregation-v1.8.0/logging-aggregation-1.8.0.tgz
+    version: 1.8.0
+  - apiVersion: v2
+    appVersion: 8.0.0
     created: "2025-11-03T12:22:15.046638371Z"
     description: Logstash and Kibana pods for analysing logs in elasticsearch
     digest: 3edbfa1536ec00fa9bf0dd13e8935131766d462a84c69c046ae62b91e3cb346c
@@ -105,4 +115,4 @@ entries:
     urls:
     - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/logging-aggregation-v1.7.0/logging-aggregation-1.7.0.tgz
     version: 1.7.0
-generated: "2025-11-15T09:38:28.622492438Z"
+generated: "2025-11-15T09:40:32.289130945Z"
