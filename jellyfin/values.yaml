@@ -21,3 +21,6 @@ ingress:
   hosts:
     - jellyfin.media.local
     - 192.168.29.9.nip.io
+
+logging:
+  enabled: true
