@@ -15,17 +15,24 @@ data:
 {{- range .Values.logstash.pipelines }}
   {{ .name }}.conf: |
     filter {
+      if [kubernetes][container][name] == "{{ .name }}" {
+        mutate {
+          add_tag => ["{{ .name }}"]
+        }
+      }
       {{- nindent 6 .filter }}
     }
 
     output {
-      {{ $.Values.search.engine }} {
-        hosts => ["${SEARCH_HOST}"]
-        user => "${SEARCH_USERNAME}"
-        password => "${SEARCH_PASSWORD}"
-        index => "{{ .index }}-%{+YYYY.MM.dd}"
-        ssl => true
-        ssl_certificate_verification => false
+      if "{{ .name }}" in [tags] {
+        {{ $.Values.search.engine }} {
+          hosts => ["${SEARCH_HOST}"]
+          user => "${SEARCH_USERNAME}"
+          password => "${SEARCH_PASSWORD}"
+          index => "{{ .index }}-%{+YYYY.MM.dd}"
+          ssl => true
+          ssl_certificate_verification => false
+        }
       }
     }
 {{- end }}
