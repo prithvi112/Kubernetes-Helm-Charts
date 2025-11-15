@@ -30,9 +30,15 @@ spec:
             - name: ELASTICSEARCH_HOSTS
               value: {{ .Values.search.url }}
             - name: ELASTICSEARCH_USERNAME
-              value: "{{ .Values.kibana.elasticUsername }}"
+              valueFrom:
+                secretKeyRef:
+                  name: secret-kibana
+                  key: kibana-username
             - name: ELASTICSEARCH_PASSWORD
-              value: "{{ .Values.kibana.elasticPassword }}"
+              valueFrom:
+                secretKeyRef:
+                  name: secret-kibana
+                  key: kibana-password
             - name: ELASTICSEARCH_SSL_VERIFICATIONMODE
               value: "none"
           {{- else }}
@@ -43,9 +49,15 @@ spec:
             - name: OPENSEARCH_HOSTS
               value: {{ .Values.search.url }}
             - name: OPENSEARCH_USERNAME
-              value: "{{ .Values.kibana.elasticUsername }}"
+              valueFrom:
+                secretKeyRef:
+                  name: secret-kibana
+                  key: kibana-username
             - name: OPENSEARCH_PASSWORD
-              value: "{{ .Values.kibana.elasticPassword }}"
+              valueFrom:
+                secretKeyRef:
+                  name: secret-kibana
+                  key: kibana-password
             - name: OPENSEARCH_SSL_VERIFICATIONMODE
               value: "none"
           {{- end }}

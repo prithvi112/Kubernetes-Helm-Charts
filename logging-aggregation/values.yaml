@@ -1,18 +1,26 @@
+search:
+  engine: opensearch / elasticsearch
+  url: < URL:PORT >
+
 logstash:
   replica: 1
   version: latest
-  elasticUsername: LOGSTASH_USERNAME
-  elasticPassword: LOGSTASH_PASSWORD
+  elasticUsername: 
+  elasticPassword: 
+  pipelines:
+    - name: < container name >
+      index: < search index >
+      filter: < log parsing filters >
 
 kibana:
   replica: 1
   version: 3.1.0
-  elasticUsername: KIBANA_USERNAME
-  elasticPassword: KIBANA_PASSWORD
+  elasticUsername: 
+  elasticPassword: 
 
-search:
-  engine: opensearch / elasticsearch
-  url: SEARCH_URL
+filebeat:
+  enabled: true
+  version: 8.19.6
 
 ingress:
   enabled: true
