@@ -55,6 +55,16 @@ entries:
   jenkins:
   - apiVersion: v2
     appVersion: 2.534.0
+    created: "2025-11-15T16:03:17.73946656Z"
+    description: CICD Pipeline tool for managing application release deployment
+    digest: 801dcaa4b8afaa7042226bd27b7c35a2aba48cc62e5c05bc7cf1b031ee371d2c
+    name: jenkins
+    type: application
+    urls:
+    - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/jenkins-v1.2.0/jenkins-1.2.0.tgz
+    version: 1.2.0
+  - apiVersion: v2
+    appVersion: 2.534.0
     created: "2025-11-03T06:58:11.102138997Z"
     description: CICD Pipeline tool for managing application release deployment
     digest: 3a54bef79b2d3ee290132f16bd9c342dd3e021efd66549e8328d30db80786e31
@@ -115,4 +125,4 @@ entries:
     urls:
     - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/logging-aggregation-v1.7.0/logging-aggregation-1.7.0.tgz
     version: 1.7.0
-generated: "2025-11-15T09:40:32.289130945Z"
+generated: "2025-11-15T16:03:17.730762175Z"
