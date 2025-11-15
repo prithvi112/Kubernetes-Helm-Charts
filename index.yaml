@@ -24,6 +24,16 @@ entries:
   jellyfin:
   - apiVersion: v2
     appVersion: 10.11.1
+    created: "2025-11-15T09:38:28.628804108Z"
+    description: Media server for hosting movies and shows
+    digest: cb59115a95777dd835fa1ad6ff29f19a99091879bb658a14175dc7779404d475
+    name: jellyfin
+    type: application
+    urls:
+    - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/jellyfin-v1.2.0/jellyfin-1.2.0.tgz
+    version: 1.2.0
+  - apiVersion: v2
+    appVersion: 10.11.1
     created: "2025-11-03T06:58:11.050254557Z"
     description: Media server for hosting movies and shows
     digest: 1b56bd743e9cc76e8e0828edbd708d0802239c8c7a2c7741b42652e09c680f99
@@ -95,4 +105,4 @@ entries:
     urls:
     - https://github.com/prithvi112/Kubernetes-Helm-Charts/releases/download/logging-aggregation-v1.7.0/logging-aggregation-1.7.0.tgz
     version: 1.7.0
-generated: "2025-11-03T12:22:15.046260635Z"
+generated: "2025-11-15T09:38:28.622492438Z"
