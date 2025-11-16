@@ -17,6 +17,8 @@ kibana:
   version: 3.1.0
   elasticUsername: 
   elasticPassword: 
+  logging:
+    enabled: true
 
 filebeat:
   enabled: true

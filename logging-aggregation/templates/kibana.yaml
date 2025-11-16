@@ -19,6 +19,10 @@ spec:
     metadata:
       labels:
         app: kibana
+      annotations:
+        co.elastic.logs/enabled: "{{ .Values.kibana.logging.enabled }}"
+        co.elastic.logs/json.keys_under_root: "true"
+        co.elastic.logs/json.add_error_key: "true"
     spec:
       containers:
         - name: kibana
