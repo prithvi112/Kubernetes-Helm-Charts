@@ -25,6 +25,10 @@ spec:
         co.elastic.logs/multiline.negate: "true"
         co.elastic.logs/multiline.match: "after"
     spec:
+      dnsPolicy: None
+      dnsConfig:
+        nameservers:
+          - 1.1.1.1
       containers:
         - name: jellyfin
           image: jellyfin/jellyfin
