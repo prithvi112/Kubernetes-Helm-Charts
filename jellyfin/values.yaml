@@ -6,21 +6,11 @@ storage:
     - name: config
       size: 2Gi
       path: /mnt/shared/jellyfin/config
-    - name: cache
-      size: 2Gi
-      path: /mnt/shared/jellyfin/cache
-    - name: movies
-      size: 100Gi
-      path: /mnt/shared/jellyfin/movies
-    - name: shows
-      size: 100Gi
-      path: /mnt/shared/jellyfin/shows
 
 ingress:
   enabled: true
   hosts:
     - jellyfin.media.local
-    - 192.168.29.9.nip.io
 
 logging:
   enabled: true

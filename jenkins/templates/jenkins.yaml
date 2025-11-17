@@ -2,14 +2,14 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: jenkins
+  name: pipeline
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jenkins
-  namespace: jenkins
+  namespace: pipeline
 spec:
   replicas: 1
   selector:
