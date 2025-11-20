@@ -1,0 +1,21 @@
+cluster:
+  namespace: media
+  replica: 1
+
+torrent:
+  version: latest
+  storage:
+    path: /mnt/shared/jellyfin
+    size: 200Gi
+
+virtual:
+  enabled: false
+  version: latest
+  provider: 
+  username: 
+  password: 
+
+ingress:
+  enabled: true
+  hosts:
+    - qbittorrent.torrent.local

@@ -1,0 +1,12 @@
+{{- if .Values.virtual.enabled }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: credentials-vpn
+  namespace: {{ .Values.cluster.namespace }}
+type: Opaque
+data:
+  username: {{ .Values.virtual.username | b64enc | quote }}
+  password: {{ .Values.virtual.password | b64enc | quote }}
+{{- end }}
